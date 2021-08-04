@@ -8,25 +8,21 @@ function expressionCalculator(expr) {
     const bracketRegExp = /\(([^)^()]+)\)/;
     const spacerExp = /\S[\+|\-|\*|\/]\S/g;
     function spacer(char) {
-        return `${char[0]} ${char[1]} ${char[2]}`;
+        return `${char[0]} ${char[1]} ${char[2]}`;//replace by split('').join(' ')??
       }
-    //console.log(spacerExp.test(expr))
     expr = expr.replace(spacerExp, spacer)
-    console.log('spaced', expr)
-    if (bracketRegExp.test(expr)){
-        //console.log('brackets', expr.match(bracketRegExp)[1])
+    if (bracketRegExp.test(expr)){//replace brackets by their result or start calculate
         while (bracketRegExp.test(expr)){
             expr = expr.replace(bracketRegExp, expressionCalculator(expr.match(bracketRegExp)[1]))
             console.log("replaced brackets", expr)
         }
     } 
-        if (expr.indexOf('(')>=0 || expr.indexOf(')')>=0) throw new Error('ExpressionError: Brackets must be paired');
+        if (expr.indexOf('(')>=0 || expr.indexOf(')')>=0) throw new Error('ExpressionError: Brackets must be paired');//there should be no brackets. All was replaced before
     
-    
-        console.log('expr ',expr);
        
         const exprArr = expr.trim().split(' ');
         
+        //all mults and divs
         let mult = exprArr.indexOf('*')
         let div = exprArr.indexOf('/')
         while (mult >= 0 || div >= 0) {
@@ -44,8 +40,8 @@ function expressionCalculator(expr) {
             }
             mult = exprArr.indexOf('*')
             div = exprArr.indexOf('/')
-            //console.log('*/   ',mult, div, exprArr)
         }
+        //all sums and subs
         let sum = exprArr.indexOf('+')
         let sub = exprArr.indexOf('-')
         while (sum >= 0 || sub >= 0) {
@@ -61,7 +57,6 @@ function expressionCalculator(expr) {
             }
             sum = exprArr.indexOf('+')
             sub = exprArr.indexOf('-')
-            //console.log('+_    ',sum, sub, exprArr)
         }
 
         return exprArr[0]
