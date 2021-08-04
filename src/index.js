@@ -5,23 +5,25 @@ function eval() {
 
 function expressionCalculator(expr) {
     // write your solution here
-    const bracketRegExp = /\(([^)]+)\)/;
+    const bracketRegExp = /\(([^)^()]+)\)/;
     const spacerExp = /\S[\+|\-|\*|\/]\S/g;
     function spacer(char) {
         return `${char[0]} ${char[1]} ${char[2]}`;
       }
     //console.log(spacerExp.test(expr))
     expr = expr.replace(spacerExp, spacer)
-    //console.log('spaced', expr)
+    console.log('spaced', expr)
     if (bracketRegExp.test(expr)){
         //console.log('brackets', expr.match(bracketRegExp)[1])
-        expr = expr.replace(bracketRegExp, expressionCalculator(expr.match(bracketRegExp)[1]))
-        //console.log("replaced brackets", expr)
-    } else {
+        while (bracketRegExp.test(expr)){
+            expr = expr.replace(bracketRegExp, expressionCalculator(expr.match(bracketRegExp)[1]))
+            console.log("replaced brackets", expr)
+        }
+    } 
         if (expr.indexOf('(')>=0 || expr.indexOf(')')>=0) throw new Error('ExpressionError: Brackets must be paired');
-    }
     
-        //console.log('expr ',expr);
+    
+        console.log('expr ',expr);
        
         const exprArr = expr.trim().split(' ');
         
@@ -68,9 +70,9 @@ function expressionCalculator(expr) {
 
 }
 
-const expr = "20 - 57 * 12 - (  58 + 84 * 32 / 27  )";
-const result = -821.5556;
-console.log(expressionCalculator(expr))
+const expr = "((1 + 2) * 3 ";
+const result = -10.0227;
+//console.log(expressionCalculator(expr))
 module.exports = {
     expressionCalculator
 }
